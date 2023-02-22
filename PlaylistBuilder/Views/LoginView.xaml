@@ -8,12 +8,21 @@
              Title="LoginView" x:DataType="vm:LoginViewModel">
     <Grid>
         <Image Source="singer.jpg" Aspect="AspectFill" />
-        <Button Text="Login to Spotify"
-                Command="{Binding OpenLoginCommand}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                IsVisible="{Binding IsNotBusy}" />
-            
+        <StackLayout>
+            <Button Text="Login to Spotify"
+                    Command="{Binding OpenLoginCommand}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsNotBusy}" />
+
+            <Button Text="Click here once logged in"
+                    Command="{Binding OpenHomeCommand}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsNotBusy}" />
+
+        </StackLayout>
+
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center" />

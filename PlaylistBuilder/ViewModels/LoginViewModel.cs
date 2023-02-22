@@ -7,45 +7,50 @@ public partial class LoginViewModel : ViewModel
             this.spotifyService = spotifyService;
         }
 
-        public async override Task Initialize()
+        public override async Task Initialize()
         {
             await base.Initialize();
-
-		IsBusy = true;
-
-		try
-		{
-			if (await spotifyService.IsSignedIn())
-			{
-				await Navigation.NavigateTo("//Home");
-			}
-		}
-		catch (Exception ex)
-		{
-			await HandleException(ex);
-		}
-
-		IsBusy = false;
         }
 
         [ObservableProperty]
-	private bool showLogin;
+	    private bool showLogin;
         private readonly ISpotifyService spotifyService;
 
         [RelayCommand]
-	public void OpenLogin()
-	{
-		ShowLogin = true;
-	}
+	    public void OpenLogin()
+	    {
+		    ShowLogin = true;
+	    }
 
-	public async Task HandleAuthCode(string code)
-	{
-		var result = await spotifyService.Initialize(code);
+        [RelayCommand]
+        public async void OpenHome()
+        {
+            IsBusy = true;
 
-		if(result)
-		{
-			await Navigation.NavigateTo("Home");
-		}
-	}
+            try
+            {
+                if (await spotifyService.IsSignedIn())
+                {
+                    await Navigation.NavigateTo("//Home");
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleException(ex);
+            }
+
+            IsBusy = false;
+        }
+
+        public async Task HandleAuthCode(string code)
+	    {
+		    var result = await spotifyService.Initialize(code);
+
+		    if(result)
+            {
+                var item = Shell.Current.CurrentItem;
+			    await Navigation.NavigateTo("Home");
+		    }
+	    }
 }
 
